@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load bootstrap5 %}
+
+{% block title %}Index{% endblock %}
+
+{% block content %}
+<div class="container col-11 col-md-9">
+    {% bootstrap_messages %}
+    <div class="row align-items-center gx-5">
+        <a class="col-md-5 item" id="add-task" href="{% url 'add-task' %}">
+            <p>
+                <i class="bi bi-plus-circle"></i>
+                Add task
+            </p>
+        </a>
+        <a class="col-md-5 item" id="add-task" href="{% url 'all-my-tasks' %}">
+            <p>
+                <i class="bi bi-list-task"></i>
+                My tasks
+            </p>
+        </a>
+    </div>
+</div>
+{% endblock %}

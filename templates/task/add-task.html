@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap5 %}
+
+{% block title %}Add Task{% endblock %}
+
+{% block content %}
+<div class="container col-11 col-md-9">
+    <div class="row align-items-center gx-5">
+        <div class="col-md-6" id="add-task">
+            <h2>Add Task</h2>
+            <form method="Post">
+                {% csrf_token %}
+                <div class="form-floating mb-3">
+                    <input name="title" type="title" id="title" placeholder="Digite o seu e-mail" class="form-control">
+                    <label for="title" class="form-label">Title</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <textarea name="description" type="description" id="description" placeholder="Digite o seu e-mail"
+                        class="form-control h-25" rows="3"></textarea>
+                    <label for="description" class="form-label">Description</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input name="due_date" type="date" id="due_date" placeholder="Digite o seu e-mail"
+                        class="form-control">
+                    <label for="due_date" class="form-label">Due Date</label>
+                </div>
+                <input type="submit" class="btn btn-primary" value="Add Task">
+            </form>
+        </div>
+        <div class="col-md-5">
+            <img src="{% static 'images/create_task.svg'%}" alt="Create Task" class="img-fluid">
+        </div>
+    </div>
+</div>
+{% endblock %}

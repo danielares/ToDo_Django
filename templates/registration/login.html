@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap5 %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+<div class="container col-11 col-md-9" id="form-container">
+    <div class="row align-items-center gx-5">
+        <div class="col-md-6 order-md-1">
+            <h2>Please login to continue</h2>
+            <form method="Post">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                <input type="submit" class="btn btn-primary" value="Login">
+            </form>
+        </div>
+        <div class="col-md-6 order-md-2">
+            <div class="col-12">
+                <img src="{% static 'images/sign_in.svg'%}" alt="Login" class="img-fluid">
+            </div>
+            <div class="col-12" id="link-container">
+                <a href="{% url 'register' %}">Sign up</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
