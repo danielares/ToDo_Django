@@ -1,7 +1,8 @@
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
-from django.views.generic import CreateView, TemplateView, DeleteView
+from django.views.generic import CreateView, TemplateView, View, DeleteView
 from django.contrib import messages
+from datetime import date
 
 from .forms import AddTaskForm
 from .models import Task
@@ -30,9 +31,56 @@ class AllMyTasksView(TemplateView):
     def get_context_data(self, **kwargs):
         user_id = self.request.user.id
         context = super().get_context_data(**kwargs)
-        context['tasks'] = Task.objects.filter(user = user_id).order_by("due_date")
+        tasks = Task.objects.filter(user = user_id).order_by("due_date")
+        for task in tasks:
+            if lated_verify(task.due_date):
+                task.lated = True
+        context['tasks'] = tasks
+        
         return context
     
+    
+class UndoneTasksView(TemplateView):
+    template_name = 'task/all-my-tasks.html'
+    
+    def get_context_data(self, **kwargs):
+        user_id = self.request.user.id
+        context = super().get_context_data(**kwargs)
+        tasks = Task.objects.filter(user = user_id, completed=False).order_by("due_date")
+        for task in tasks:
+            if lated_verify(task.due_date):
+                task.lated = True
+        context['tasks'] = tasks
+        
+        return context
+    
+
+class CompleteTasksView(TemplateView):
+    template_name = 'task/all-my-tasks.html'
+    
+    def get_context_data(self, **kwargs):
+        user_id = self.request.user.id
+        context = super().get_context_data(**kwargs)
+        context['tasks'] = Task.objects.filter(user = user_id, completed=True).order_by("due_date")
+        return context    
+    
+
+class LatedTasksView(TemplateView):
+    template_name = 'task/all-my-tasks.html'
+    
+    def get_context_data(self, **kwargs):
+        user_id = self.request.user.id
+        context = super().get_context_data(**kwargs)
+        tasks = Task.objects.filter(user = user_id, completed=False).order_by("due_date")
+        context_list = []
+        for task in tasks:
+            if lated_verify(task.due_date):
+                task.lated = True
+                context_list.append(task)
+        context['tasks'] = context_list
+        
+        return context
+
     
 class MyTaskView(TemplateView):
     template_name = 'task/my-task.html'
@@ -54,13 +102,32 @@ class MyTaskView(TemplateView):
 
         messages.success(request, 'Task Updated')
         return redirect('all-my-tasks')
+   
+   
+class CompleteTaskView(View):
     
+    def post(self, request, task_id):
+        task = Task.objects.filter(id = task_id)
+        if task[0].completed == False:
+            task.update(completed=True)
+            messages.success(request, 'Task Completed')
+        else:
+            task.update(completed=False)
+            messages.success(request, 'Task Undone')
+        return redirect('all-my-tasks')
     
-class DeleteTaskView(TemplateView):
-    template_name = 'task/delete-task.html'
+
+class DeleteTaskView(View):
     
     def post(self, request, task_id):
         task = Task.objects.filter(id = task_id)
         task.delete()
         messages.success(request, 'Task Deleted')
         return redirect('all-my-tasks')
+
+
+def lated_verify(date):
+    today = date.today()
+    if date < today:
+        return True
+

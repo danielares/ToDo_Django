@@ -4,20 +4,66 @@
 {% block title %}My tasks{% endblock %}
 
 {% block content %}
-<div class="container col-11 col-md-9">
+<div class="container col-12 col-md-9">
     {% bootstrap_messages %}
+    <div class="row align-items-center">
+        <a href="{% url 'all-my-tasks' %}" class="col-md-2 item" id="all">
+            <p>All tasks</p>
+        </a>
+        <a href="{% url 'undone-tasks' %}" class="col-md-2 item" id="undone">
+            <p>Undone</p>
+        </a>
+        <a href="{% url 'lated-tasks' %}" class="col-md-2 item" id="lated">
+            <p>Lated</p>
+        </a>
+        <a href="{% url 'complete-tasks' %}" class="col-md-2 item" id="completed">
+            <p>Completed</p>
+        </a>
+    </div>
+
     <div class="row align-items-center gx-5">
         {% for task in tasks %}
-        <a class="col-md-5 item" id="my-task" href="{% url 'my-task' task.id %}">
-            <p>
+        <div class="col-md-5 item completed-{{task.completed}} lated-{{task.lated}}" id="my-task">
+            <p id="task-name">
                 <i class="bi bi-card-heading"></i>
                 {{task}}
             </p>
-            <p>
+            <p id="task-description">
+                <i class="bi bi-journal-text"></i>
+                {{task.description}}
+            </p>
+            <p id="task-due-date">
                 <i class="bi bi-calendar"></i>
                 {{task.due_date}}
             </p>
-        </a>
+            <p id="task-due-date">
+                <i class="bi bi-check-circle"></i>
+                Status:
+                {% if task.completed == False %}
+                Undone
+                {% else %}
+                Completed
+                {% endif %}
+            </p>
+
+            <div class="btn-tasks">
+                {% if task.completed == False %}
+                <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                    data-bs-target="#modalComplete{{task.id}}">Complete</button>
+                {% else %}
+                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                    data-bs-target="#modalComplete{{task.id}}">Undone</button>
+                {% endif %}
+                {% include 'task/modals/complete.html' %}
+
+
+                <a href="{% url 'my-task' task.id %}" class="btn btn-primary">Edit</a>
+
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                    data-bs-target="#modalDelete{{task.id}}">Delete</button>
+                {% include 'task/modals/delete.html' %}
+            </div>
+        </div>
         {% endfor %}
     </div>
 </div>
