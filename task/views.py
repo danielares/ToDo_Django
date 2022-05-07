@@ -2,11 +2,13 @@ from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from django.views.generic import CreateView, TemplateView, View, DeleteView
 from django.contrib import messages
-from datetime import date
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 from .forms import AddTaskForm
 from .models import Task
 
+@method_decorator(login_required, name='dispatch')
 class AddTaskView(CreateView):
     model = Task
     field = '__all__'
@@ -25,6 +27,7 @@ class AddTaskView(CreateView):
         return redirect('index')
 
 
+@method_decorator(login_required, name='dispatch')
 class AllMyTasksView(TemplateView):
     template_name = 'task/all-my-tasks.html'
     
@@ -39,7 +42,8 @@ class AllMyTasksView(TemplateView):
         
         return context
     
-    
+
+@method_decorator(login_required, name='dispatch')
 class UndoneTasksView(TemplateView):
     template_name = 'task/all-my-tasks.html'
     
@@ -53,8 +57,9 @@ class UndoneTasksView(TemplateView):
         context['tasks'] = tasks
         
         return context
+  
     
-
+@method_decorator(login_required, name='dispatch')
 class CompleteTasksView(TemplateView):
     template_name = 'task/all-my-tasks.html'
     
@@ -65,6 +70,7 @@ class CompleteTasksView(TemplateView):
         return context    
     
 
+@method_decorator(login_required, name='dispatch')
 class LatedTasksView(TemplateView):
     template_name = 'task/all-my-tasks.html'
     
@@ -81,7 +87,8 @@ class LatedTasksView(TemplateView):
         
         return context
 
-    
+
+@method_decorator(login_required, name='dispatch')    
 class MyTaskView(TemplateView):
     template_name = 'task/my-task.html'
     
@@ -103,7 +110,8 @@ class MyTaskView(TemplateView):
         messages.success(request, 'Task Updated')
         return redirect('all-my-tasks')
    
-   
+
+@method_decorator(login_required, name='dispatch') 
 class CompleteTaskView(View):
     
     def post(self, request, task_id):
@@ -117,6 +125,7 @@ class CompleteTaskView(View):
         return redirect('all-my-tasks')
     
 
+@method_decorator(login_required, name='dispatch')
 class DeleteTaskView(View):
     
     def post(self, request, task_id):

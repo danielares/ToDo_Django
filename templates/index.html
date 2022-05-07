@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load bootstrap5 %}
 
 {% block title %}Index{% endblock %}
 
 {% block content %}
-<div class="container col-11 col-md-9">
+<div class="container">
     {% bootstrap_messages %}
     <div class="row align-items-center gx-5">
         <a class="col-md-5 item" id="add-task" href="{% url 'add-task' %}">
@@ -20,5 +21,13 @@
             </p>
         </a>
     </div>
+
+    <div class="row text-center gx-5 mt-5">
+        <div class="col-12">
+            <img src="{% static '/images/todo.svg' %}" alt="ToDoImage" class="img-fluid"/>
+        </div>
+    </div>
+</div>
+
 </div>
 {% endblock %}

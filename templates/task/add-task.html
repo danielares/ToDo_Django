@@ -5,8 +5,8 @@
 {% block title %}Add Task{% endblock %}
 
 {% block content %}
-<div class="container col-11 col-md-9">
-    <div class="row align-items-center gx-5">
+<div class="container">
+    <div class="row align-items-center gx-5 mt-5">
         <div class="col-md-6" id="add-task">
             <h2>Add Task</h2>
             <form method="Post">
@@ -28,7 +28,7 @@
                 <input type="submit" class="btn btn-primary" value="Add Task">
             </form>
         </div>
-        <div class="col-md-5">
+        <div class="col-md-6">
             <img src="{% static '/images/create_task.svg'%}" alt="Create Task" class="img-fluid">
         </div>
     </div>
