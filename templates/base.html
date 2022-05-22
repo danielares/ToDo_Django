@@ -40,41 +40,42 @@
         </header>
 
         <nav class="navbar navbar-expand-md navbar-light bg-faded">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-links"
+                    aria-controls="navbar-links" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon">
+                        <i style="color: white;" class="fas fa-align-justify"></i>
+                    </span>
+                </button>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-links"
-                aria-controls="navbar-links" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon">
-                    <i style="color: white;" class="fas fa-align-justify"></i>
-                </span>
-            </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbar-links">
+                    <ul class="navbar-nav mx-auto" style="--bs-scroll-height: 100px;">
 
-            <div class="collapse navbar-collapse justify-content-end" id="navbar-links">
-                <ul class="navbar-nav mx-auto">
+                        <li class="nav-item active text-center">
+                            <a class="nav-link" href="{% url 'index' %}">Home</a>
+                        </li>
+                        <li class="nav-item active text-center">
+                            <a class="nav-link" href="{% url 'about' %}">About</a>
+                        </li>
+                        {% if user.is_anonymous %}
+                        <li class="nav-item text-center">
+                            <a class="nav-link" href="{% url 'login' %}">Login</a>
+                        </li>
+                        <li class="nav-item text-center">
+                            <a class="nav-link" href="{% url 'register' %}">SignUp</a>
+                        </li>
+                        {% else %}
 
-                    <li class="nav-item active text-center">
-                        <a class="nav-link" href="{% url 'index' %}">Home</a>
-                    </li>
-                    <li class="nav-item active text-center">
-                        <a class="nav-link" href="{% url 'about' %}">About</a>
-                    </li>
-                    {% if user.is_anonymous %}
-                    <li class="nav-item text-center">
-                        <a class="nav-link" href="{% url 'login' %}">Login</a>
-                    </li>
-                    <li class="nav-item text-center">
-                        <a class="nav-link" href="{% url 'register' %}">SignUp</a>
-                    </li>
-                    {% else %}
+                        <li class="nav-item text-center">
+                            <a class="nav-link" href="#">{{user.username}}</a>
+                        </li>
 
-                    <li class="nav-item text-center">
-                        <a class="nav-link" href="#">{{user.username}}</a>
-                    </li>
-
-                    <li class="nav-item text-center">
-                        <a class="nav-link" href="{% url 'logout' %}">Exit</a>
-                    </li>
-                    {% endif %}
-                </ul>
+                        <li class="nav-item text-center">
+                            <a class="nav-link" href="{% url 'logout' %}">Exit</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
             </div>
         </nav>
 
@@ -83,7 +84,9 @@
     <main>
         {% block content %}
         {% endblock %}
+        {% include 'footer.html' %}
     </main>
     {% bootstrap_javascript %}
 </body>
+
 </html>

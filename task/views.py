@@ -109,7 +109,7 @@ class MyTaskView(TemplateView):
 
         messages.success(request, 'Task Updated')
         return redirect('all-my-tasks')
-   
+
 
 @method_decorator(login_required, name='dispatch') 
 class CompleteTaskView(View):
@@ -123,7 +123,7 @@ class CompleteTaskView(View):
             task.update(completed=False)
             messages.success(request, 'Task Undone')
         return redirect('all-my-tasks')
-    
+
 
 @method_decorator(login_required, name='dispatch')
 class DeleteTaskView(View):
