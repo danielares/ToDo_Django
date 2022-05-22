@@ -34,13 +34,14 @@
         <header class="row" id="header">
             <div id="logo-container">
                 <img src="{% static '/images/logo.svg' %}" alt="Art" id="logo">
-                <h1>ToDo Wick</h1>
+                <h1 class="title">ToDo Wick</h1>
             </div>
             <p>Organize your tasks</p>
         </header>
 
         <nav class="navbar navbar-expand-md navbar-light bg-faded">
             <div class="container-fluid">
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-links"
                     aria-controls="navbar-links" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon">
@@ -49,7 +50,7 @@
                 </button>
 
                 <div class="collapse navbar-collapse justify-content-end" id="navbar-links">
-                    <ul class="navbar-nav mx-auto" style="--bs-scroll-height: 100px;">
+                    <ul class="navbar-nav mx-auto">
 
                         <li class="nav-item active text-center">
                             <a class="nav-link" href="{% url 'index' %}">Home</a>
@@ -86,7 +87,7 @@
         {% endblock %}
         {% include 'footer.html' %}
     </main>
-    {% bootstrap_javascript %}
+
 </body>
 
 </html>
